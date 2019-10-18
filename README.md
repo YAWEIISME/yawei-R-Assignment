@@ -75,8 +75,6 @@ rm(fang_et_al_genotypes)#clear up
 rm(snp_position)
 ```
 
-
-
 #Now we can start to creat files we want.
 #For maize (Group = ZMMIL, ZMMLR, and ZMMMR in the third column of the fang_et_al_genotypes.txt file) we want 20 files in total:
 
@@ -84,9 +82,8 @@ rm(snp_position)
 ```{r}
 for (i in 1:10) {
   maize <- filter(maize_fang_et_al_genotypes, Chromosome == i)
-  maize <- rename( maize,NA,"?")
   maize <- arrange(maize, Position)
-  outpath <- "/Users/yaweili/yawei-R-Assignment/maize_increasing_data"
+  outpath <- "/Users/yaweili/yawei-R-Assignment/maize_increasing_data/"
   nam <- sapply(
     names(maize),function(x){
                     paste("maize_in", i, ".csv", sep='')
@@ -125,7 +122,6 @@ for (i in 1:10) {
 ```{r}
 for (i in 1:10) {
   teosinte <- filter(teosinte_fang_et_al_genotypes, Chromosome == i)
-  teosinte <- rename(teosinte,NA,"?")
   teosinte <- arrange(teosinte, Position)
   outpath <- "/Users/yaweili/yawei-R-Assignment/teosinte_increasing_data/"
   nam <- sapply(
@@ -144,7 +140,7 @@ for (i in 1:10) {
 for (i in 1:10) {
   teosinte <- filter(teosinte_ded, Chromosome == i)
   teosinte <- arrange(teosinte, desc(Position))
-  outpath <- "Users/yaweili/yawei-R-Assignment/teosinte_decreasing_data/"
+  outpath <- "/Users/yaweili/yawei-R-Assignment/teosinte_decreasing_data/"
   nam <- sapply(
     names(teosinte),function(x){
                     paste("teosinte_dd", i, ".csv", sep='')
@@ -153,6 +149,7 @@ for (i in 1:10) {
                      paste(outpath, x, sep='/')})
   write.csv(teosinte, file=out_filePath[i])
 }
+rm(list = ls())
 ```
 
 #In conclusion, there are 40 files produced.
@@ -184,7 +181,9 @@ setwd("/Users/yaweili/yawei-R-Assignment/")
 
 #SNPs per chromosome
 
-Plot the total number of SNPs in our dataset on each chromosome. Also plot the distribution of SNPs on chromosomes.
+#Plot the total number of SNPs in our dataset on each chromosome. 
+#Also plot the distribution of SNPs on chromosomes.
+#pp is a place holder,after using it , we need to remove it.
 ```{r}
 for(i in 1:2){
   if(i==1){
@@ -230,6 +229,8 @@ rm(i)
 #Missing data and amount of heterozygosity
 
 Create a new column to indicate whether a particular site is homozygous (has the same nucleotide on both chromosomes (i.e., A/A, C/C, G/G, T/T) or heterozygous (otherwise)). Make a graph that shows the proportion of homozygous and heterozygous sites as well as missing data in each sample (you won't be able to see the sample names). Make another graph that shows the same data for each group. Normalize the height of individual bars using one of the ggplot "position adjustments" options.
+
+#first, we need to use the melt command to make 
 ```{r}
 for(i in 1:2){
   if(i==1){
@@ -270,9 +271,6 @@ teosinte_melt <- mutate(teosinte_melt, allele = case_when(nu$Nucleotide==2~ "hom
        }
 rm(nu)
 rm(i)
-```
-
-```{r}
 for(i in 1:2){
   if(i==1){
 pp=ggplot(data = maize_melt) + 
@@ -293,11 +291,9 @@ getwd()
   rm(pp)
   rm(i)
 ```
-
-
-```{r}
 #proportion of homozygous and heterozygous sites as well as missing data in each Chromosome group
-setwd("c:/Users/46554/github/R-Assignment/Tianqili-R-Assignment/submit/")
+```{r}
+setwd("/Users/yaweili/yawei-R-Assignment/")
 for(i in 1:2){
   if(i==1){
 pp=ggplot(data = maize_melt) + 
@@ -320,9 +316,9 @@ getwd()
 ```
 
 
-#Your own visualization
+#My own visualization
 
-Visualize one other feature of the dataset. The choice is up to you!
+Proportion of homozygous and heterozygous sites as well as missing data of all samples
 ```{r}
 for(i in 1:2){
   if(i==1){
